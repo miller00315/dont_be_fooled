@@ -120,11 +120,15 @@ class ChatDataSource implements IChatDataSource {
     final url = message.url;
 
     if (url != null) {
+      print(url);
+
       try {
         final res = await _gemini.textAndImage(
-          text: const String.fromEnvironment('image_prompt'),
-          images: [File(message.url!).readAsBytesSync()],
+          text: "Verifique se existe algo ilegal ou abusivo na imagem enviada. \\n Verifique se na imagem existe um contrato com cláusulas abusivas de acordo com a legislação brasileira, solicitação de transferências cancárias (TED, ou pix) ilegais, charlatanismo, promessa milagrosas, falsa lojas onlines, violações de diretos do trablahador, violação de direitos civis, violaçãos de direitos da criança e do adolescentes, violações dos direitos humanos ou qualquer outra violação legal.\\n Também verifique se existe incitação a violência, misogênia, violação dos direitos da população LGBTQIAPN+, notícias falsa ou negacionismo, jogos de azar, apologia ao tráfico de drogas, venda de produtos ilícitos, incitação a suicídio.\\n Também verifique se na imgaem a um link para endereço maliciosso, link para um site de conteúdo adulto ou perigoso, falso link para site de banco ou instituição do governo, link para conteúdo com apologia ao racismo, violção do diretos de minorias ou quaisquer violação a direitos humanos.\\n Caso a imagem contenha um qr code verifique se esse qrcode aponta para site malicooso, site om notícias falsas ou negacionismo, conteúdo ilegal ou falso, falso link pra site de banco ou instituição do governo, site com notícias falsas ou negacionismo, arquivo que possa danificar ou prejudicar dispositivos, jogo de azar no brasil é.",
+          images: [File(message.url!).readAsBytesSync()]
         );
+
+        print(res);
 
         final content = res?.content;
 

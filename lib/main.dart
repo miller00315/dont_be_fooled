@@ -36,11 +36,11 @@ void main() async {
       injectDependencies(getIt);
 
       Gemini.init(
-        apiKey: const String.fromEnvironment('ia_api_key'),
+        apiKey: 'AIzaSyAdDWPu0GShlOGeAqg9pNl_tkab-91WM0Q',
         enableDebugging: true,
       );
 
-      Bloc.observer = AppBlocObserver();
+      // Bloc.observer = AppBlocObserver();
 
       runApp(App());
     },

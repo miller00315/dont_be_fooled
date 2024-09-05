@@ -65,14 +65,14 @@ class ReceiveWhatsAppChat {
   }
 
   Future<void> _receiveShareAndroid(Share shared) async {
-    final url = shared.shares[0].path;
+    final url = shared.path;
 
     if (!isWhatsAppChatUrl(url)) throw Exception("Not a WhatsApp chat url");
 
     List<String> chat = List<String>.from(await methodChannel
         .invokeMethod("analyze", <String, dynamic>{"data": url}));
 
-    _submitContent(ChatAnalyzer.analyze(chat, _getImagePaths(shared)));
+    ChatAnalyzer.analyze(chat, _getImagePaths(shared));
   }
 
   _submitContent(ChatContent content) {
@@ -96,8 +96,8 @@ class ReceiveWhatsAppChat {
 
   bool isWhatsAppChatUrl(String url) {
     if (Platform.isAndroid) {
-      return url
-          .startsWith("content://com.whatsapp.provider.media/export_chat/");
+      return url.startsWith(
+          "content://com.whatsapp.provider.media/export_chat_folder/");
     } else if (Platform.isIOS) {
       return url
           .startsWith("file:///private/var/mobile/Containers/Shared/AppGroup/");

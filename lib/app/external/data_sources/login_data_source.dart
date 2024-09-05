@@ -12,26 +12,26 @@ class LoginDataSource implements ILoginDataSource {
 
   @override
   Future<AppUser?> authenticate() async {
-    final googleUser = await _googleSignIn.signIn();
+    /* final googleUser = await _googleSignIn.signIn();
 
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
 
-    if (googleAuth != null) {
-      final credential = GoogleAuthProvider.credential(
+    if (googleAuth != null) { */
+      /* final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
       final res = await _firebaseAuth.signInWithCredential(credential);
 
-      final token = res.credential?.accessToken;
+      final token = res.credential?.accessToken; */
 
-      if (token != null) {
-        return AppUser(id: token);
-      }
-    }
+     // if (token != null) {
+        return AppUser(id: 'temp_token');
+     // }
+    /* }
 
-    return null;
+    return null; */
   }
 }

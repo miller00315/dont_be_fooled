@@ -138,7 +138,6 @@ class MainActivity: FlutterActivity() {
 
         EventChannel(flutterView, stream).setStreamHandler(object: StreamHandler{
             override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
-                Log.i("ola", "adding listener");
                 eventSink = events
                 ignoring = false
 
@@ -148,7 +147,6 @@ class MainActivity: FlutterActivity() {
             }
 
             override fun onCancel(arguments: Any?) {
-                Log.i("ola", "cancelling listener");
                 ignoring = true
                 eventSink = null
             }
@@ -178,7 +176,6 @@ class MainActivity: FlutterActivity() {
           if("text/plain" == type) {
 
               sharedTitle?.let {
-                  Log.i("oi", sharedTitle)
 
                   val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
 
@@ -203,14 +200,9 @@ class MainActivity: FlutterActivity() {
 
           } else {
               sharedTitle?.let {
-                  Log.i("oi", sharedTitle)
-
-                  val res = intent.getParcelableExtra(Intent.EXTRA_STREAM, java.util.ArrayList<Uri>()::class.java);
-
-                  val sharedUri: Uri? = res?.get(0)
+                  val sharedUri: Uri? = intent.getParcelableExtra(Intent.EXTRA_STREAM);
 
                   sharedUri?.let {
-                      Log.i("oi", sharedUri.toString())
 
                       if(eventSink != null) {
                           val params: HashMap<String, String> = HashMap()
@@ -239,20 +231,17 @@ class MainActivity: FlutterActivity() {
           }
 
       } else if(Intent.ACTION_SEND_MULTIPLE == action && type != null) {
-          Log.i("oi", "receiving files")
+          val sharedUri: Uri? = intent.getParcelableExtra(Intent.EXTRA_STREAM);
 
-          val uris: ArrayList<Uri>? = intent.getParcelableExtra(Intent.EXTRA_STREAM, ArrayList<Uri>()::class.java);
-
-          uris?.let {
+          sharedUri?.let {
               if (eventSink != null) {
                   val params: HashMap<String, String> = HashMap()
 
                   params[TYPE] = type
                   params[IS_MULTIPLE] = "true"
-
-                  for (i in 0 until uris.size) {
-                      params[i.toString()] = uris[i].toString()
-                  }
+                
+                    params[0.toString()] = sharedUri.toString()
+                  
 
                   eventSink?.success(params)
               } else if(!ignoring && backlog.contains(intent)) {

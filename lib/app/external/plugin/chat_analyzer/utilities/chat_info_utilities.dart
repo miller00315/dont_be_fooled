@@ -1,6 +1,5 @@
 import 'dart:io';
 
-
 import 'package:dont_be_fooled/app/external/plugin/chat_analyzer/languages/languages.dart';
 import 'package:dont_be_fooled/app/external/plugin/models/chat_content.dart';
 import 'package:dont_be_fooled/app/external/plugin/models/message_content.dart';
@@ -13,7 +12,8 @@ class ChatInfoUtilities {
   /// message starts with somthing like: "25/04/2022, 10:17 - Dolev Test Phone: Hi"
   /// iOS:
   /// message starts with somthing like: "[25/04/2022, 10:17:07] Dolev Test Phone: Hi"
-  static final RegExp _regExp = RegExp(r"[?\d\d?[/|.]\d\d?[/|.]\d?\d?\d\d,?\s\d\d?:\d\d:?\d?\d?\s?-?]?\s?");
+  static final RegExp _regExp = RegExp(
+      r"[?\d\d?[/|.]\d\d?[/|.]\d?\d?\d\d,?\s\d\d?:\d\d:?\d?\d?\s?-?]?\s?");
 
   /// [_regExpToSplitLineAndroid] and [_regExpToSplitLineIOS] to get the message date and time
   static final RegExp _regExpToSplitLineAndroid = RegExp(r"\s-\s");
@@ -22,6 +22,50 @@ class ChatInfoUtilities {
   /// chat info contains messages per member, members of the chat, messages, and size of the chat
   static ChatContent getChatInfo(List<String> chat) {
     bool isAndroid = Platform.isAndroid;
+    List<String> names = [];
+    List<List<int>> countNameMsgs = [];
+    List<MessageContent> msgContents = [];
+    List<String> lines = [];
+    bool first = true;
+
+    for (int i = 0; i < chat.length; i++) {
+      if (_regExp.hasMatch(chat[i])) {
+        lines.add(chat[i]);
+        if (!first) {
+          MessageContent msgContent = _getMsgContentFromStringLine(
+              lines[lines.length - (isAndroid ? 1 : 2)]);
+          if (!names.contains(msgContent.senderId) &&
+              msgContent.senderId != null) {
+            names.add(msgContent.senderId!);
+            countNameMsgs.add([msgContents.length]);
+            msgContents.add(msgContent);
+          } else {
+            if (msgContent.senderId != null) {
+              countNameMsgs[names.indexOf(msgContent.senderId!)]
+                  .add(msgContents.length);
+              msgContents.add(msgContent);
+            }
+          }
+        }
+        first = false;
+      } else {
+        print(lines);
+
+        lines.add( "\n" + chat[i]);
+      }
+      
+    }
+
+    print(lines);
+
+    return ChatContent(
+      members: ['a', 'b'],
+      messages: [],
+      sizeOfChat: 0,
+      chatName: '',
+      msgsPerMember: {'a': 0, 'b': 0},
+      indexesPerMember: {'a': [], 'b': []},
+    ); /* bool isAndroid = Platform.isAndroid;
     List<String> names = [];
     List<List<int>> countNameMsgs = [];
     List<MessageContent> msgContents = [];
@@ -41,15 +85,17 @@ class ChatInfoUtilities {
             msgContents.add(msgContent);
           } else {
             if (msgContent.senderId != null) {
-              countNameMsgs[names.indexOf(msgContent.senderId!)].add(
-                  msgContents.length);
+              countNameMsgs[names.indexOf(msgContent.senderId!)]
+                  .add(msgContents.length);
               msgContents.add(msgContent);
             }
           }
         }
         first = false;
       } else {
-        lines[lines.length - 1] += "\n" + chat[i];
+        print(lines);
+
+        lines[lines.length] += "\n" + chat[i];
       }
     }
 
@@ -70,17 +116,19 @@ class ChatInfoUtilities {
       indexesPerMember: indexesPerMember,
       msgsPerMember: msgsPerPerson,
       chatName: '',
-    );
+    ); */
   }
 
   /// Receive a String line and return from it [MessageContent]
   static MessageContent _getMsgContentFromStringLine(String line) {
     MessageContent nullMessageContent =
-    MessageContent(senderId: null, msg: null);
+        MessageContent(senderId: null, msg: null);
 
-    if (Platform.isAndroid && line.split(_regExpToSplitLineAndroid).length == 1) {
+    if (Platform.isAndroid &&
+        line.split(_regExpToSplitLineAndroid).length == 1) {
       return nullMessageContent;
-    } else if (Platform.isIOS && line.split(_regExpToSplitLineIOS).length == 1) {
+    } else if (Platform.isIOS &&
+        line.split(_regExpToSplitLineIOS).length == 1) {
       return nullMessageContent;
     }
 
