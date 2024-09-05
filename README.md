@@ -1,22 +1,61 @@
-# dont_be_fooled
+# 🛡️ Mobile Fraud Detection App
 
-A new Flutter project.
+## 🌟 Visão Geral
 
-## Getting Started
+Bem-vindo ao Mobile Fraud Detection App, uma solução inovadora para combater fraudes usando tecnologia de ponta! Este aplicativo móvel, desenvolvido com Flutter, combina a robustez do Firebase Authentication com o poder da API Gemini para oferecer uma detecção de fraudes multimodal e altamente eficaz.
 
-This project is a starting point for a Flutter application.
+## 🚀 Principais Funcionalidades
 
-A few resources to get you started if this is your first Flutter project:
+### 🔐 Autenticação Segura
+- Utiliza o Firebase Authentication para garantir acesso seguro e confiável.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 🕵️‍♂️ Detecção de Fraudes Multimodal
+- Aproveita a API do Gemini para analisar:
+  - ✍️ Texto
+  - 🖼️ Imagens
+  - 🎵 Áudio
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 📱 Integração com Plataformas de Mensagens
+- 💬 WhatsApp
+- 📂 Biblioteca de arquivos internos do dispositivo
+- 🔜 Expansão futura para Facebook Messenger e Telegram
 
-ATBBftQZGjcvFsAYuuNnXpT3mvtr8BFFA4F1
+### 📊 Análise Avançada
+- Detecta fraudes em:
+  - 💬 Histórico de conversas
+  - 📤 Envio de mensagens
+  - 📎 Recursos multimídia (imagens e áudio)
 
-flutter run --dart-define-from-file=.env/dev.json
+## 🔮 Funcionalidades Futuras
 
+- 🔗 Integração expandida com mais apps de mensagens e redes sociais
+- 📈 Melhorias contínuas baseadas em feedback e avanços em IA generativa
 
+## 🛠️ Tecnologias Utilizadas
+
+- Flutter
+- Firebase Authentication
+- API Gemini (Google AI)
+
+## 🚀 Como Começar
+
+1. Clone o repositório
+```
+git clone https://github.com/seu-usuario/mobile-fraud-detection-app.git
+```
+
+2. Instale as dependências
+```
+flutter pub get
+```
+
+3. Configure o Firebase e a API do Gemini (instruções detalhadas no arquivo de configuração)
+
+4. Execute o aplicativo
+```
+flutter run
+```
+
+## 🤝 Contribuições
+
+Contribuições são bem-vindas! Por favor, leia o arquivo `CONTRIBUTING.md` para detalhes sobre nosso código de conduta e o processo para enviar pull requests.
